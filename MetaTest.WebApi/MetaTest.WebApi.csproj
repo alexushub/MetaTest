@@ -12,5 +12,15 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MetaTest.Data\MetaTest.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\geobase.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>

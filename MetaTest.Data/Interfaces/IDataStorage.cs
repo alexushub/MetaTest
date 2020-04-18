@@ -13,6 +13,8 @@ namespace MetaTest.Data.Interfaces
 
         LocationRecord[] Locations { get; set; }
 
+        uint[] LocationsIndexes { get; set; }
+
         void LoadAllFromFile(string localPath);
     }
 }

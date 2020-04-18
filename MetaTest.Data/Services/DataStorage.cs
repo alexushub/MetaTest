@@ -1,4 +1,5 @@
-﻿using MetaTest.Data.Interfaces;
+﻿using MetaTest.Data.Helpers;
+using MetaTest.Data.Interfaces;
 using MetaTest.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,13 @@ namespace MetaTest.Data.Services
 
         public LocationRecord[] Locations { get; set; }
 
+        public uint[] LocationsIndexes { get; set; }
+
         public void LoadAllFromFile(string localPath)
         {
             var basePath = Directory.GetCurrentDirectory();
             var path = Path.Combine(basePath, localPath);
+
             var s = Stopwatch.StartNew();
 
             Header = new HeaderRecord();
@@ -34,7 +38,7 @@ namespace MetaTest.Data.Services
             {
                 //get header
                 Header.version = reader.ReadInt32();
-                Header.name = ReadString(reader, 32);
+                Header.name = DbHelper.ReadString(reader, 32);
                 Header.timestamp = reader.ReadUInt64();
                 Header.records = reader.ReadInt32();
                 Header.offset_ranges = reader.ReadUInt32();
@@ -43,67 +47,39 @@ namespace MetaTest.Data.Services
 
                 Ips = new IpRecord[Header.records];
                 Locations = new LocationRecord[Header.records];
+                LocationsIndexes = new uint[Header.records];
 
                 //get ips
                 reader.BaseStream.Seek(Header.offset_ranges, SeekOrigin.Begin);
                 for (int i = 0; i < Header.records; i++)
                 {
-                    var currentIpRecord = ReadIpRecord(reader);
+                    var currentIpRecord = DbHelper.ReadIpRecord(reader);
                     Ips[i] = currentIpRecord;
                 }
 
                 //get locations
                 reader.BaseStream.Seek(Header.offset_locations, SeekOrigin.Begin);
+                for (uint i = 0; i < Header.records; i++)
+                {
+                    var currentLocationRecord = DbHelper.ReadLocationRecord(reader);
+                    currentLocationRecord.Order = i;
+                    Locations[i] = currentLocationRecord;
+                }
+
+                //get locations indexes
+                reader.BaseStream.Seek(Header.offset_cities, SeekOrigin.Begin);
                 for (int i = 0; i < Header.records; i++)
                 {
-                    var currentLocationRecord = ReadLocationRecord(reader);
-                    Locations[i] = currentLocationRecord;
+                    var index = reader.ReadUInt32();
+                    LocationsIndexes[i] = index;
                 }
             }
 
             s.Stop();
 
-            Console.WriteLine(((double)(s.Elapsed.TotalMilliseconds)).ToString("0.00 ms"));
+            Console.WriteLine("Database has been loaded in ", ((double)(s.Elapsed.TotalMilliseconds)).ToString("0.00 ms"));
         }
 
-        private LocationRecord ReadLocationRecord(BinaryReader reader)
-        {
-            var currentLocationRecord = new LocationRecord();
-
-            currentLocationRecord.country = ReadString(reader, 8);
-            currentLocationRecord.region = ReadString(reader, 12);
-            currentLocationRecord.postal = ReadString(reader, 12);
-            currentLocationRecord.city = ReadString(reader, 24);
-            currentLocationRecord.organization = ReadString(reader, 32);
-            currentLocationRecord.latitude = reader.ReadSingle();
-            currentLocationRecord.longitude = reader.ReadSingle();
-
-            return currentLocationRecord;
-        }
-
-        private IpRecord ReadIpRecord(BinaryReader reader)
-        {
-            var currentIpRecord = new IpRecord();
-            currentIpRecord.ip_from = reader.ReadUInt32();
-            currentIpRecord.ip_from_str = IPAddress.Parse(currentIpRecord.ip_from.ToString()).ToString();
-            currentIpRecord.ip_to = reader.ReadUInt32();
-            currentIpRecord.ip_to_str = IPAddress.Parse(currentIpRecord.ip_to.ToString()).ToString();
-            currentIpRecord.location_index = reader.ReadUInt32();
-
-            return currentIpRecord;
-        }
-
-        private string ReadString(BinaryReader reader, int length)
-        {
-            byte[] bytes = new byte[length];
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                bytes[i] = reader.ReadByte();
-            }
-
-            var str = Encoding.UTF8.GetString(bytes.Where(m => m != 0).ToArray());
-
-            return str;
-        }
+        
     }
 }
