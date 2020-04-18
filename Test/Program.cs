@@ -7,8 +7,8 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var data = new DataService();
-            data.LoadDbFromFile("data\\geobase.dat");
+            var data = new DataStorage();
+            data.LoadAllFromFile("data\\geobase.dat");
             Console.ReadLine();
         }
     }
