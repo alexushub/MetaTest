@@ -13,13 +13,13 @@ namespace MetaTest.Data.Helpers
         {
             var currentLocationRecord = new LocationRecord();
 
-            currentLocationRecord.country = ReadString(reader, 8);
-            currentLocationRecord.region = ReadString(reader, 12);
-            currentLocationRecord.postal = ReadString(reader, 12);
-            currentLocationRecord.city = ReadString(reader, 24);
-            currentLocationRecord.organization = ReadString(reader, 32);
-            currentLocationRecord.latitude = reader.ReadSingle();
-            currentLocationRecord.longitude = reader.ReadSingle();
+            currentLocationRecord.Country = ReadString(reader, 8);
+            currentLocationRecord.Region = ReadString(reader, 12);
+            currentLocationRecord.Postal = ReadString(reader, 12);
+            currentLocationRecord.City = ReadString(reader, 24);
+            currentLocationRecord.Organization = ReadString(reader, 32);
+            currentLocationRecord.Latitude = reader.ReadSingle();
+            currentLocationRecord.Longitude = reader.ReadSingle();
 
             return currentLocationRecord;
         }
@@ -27,11 +27,9 @@ namespace MetaTest.Data.Helpers
         public static IpRecord ReadIpRecord(BinaryReader reader)
         {
             var currentIpRecord = new IpRecord();
-            currentIpRecord.ip_from = reader.ReadUInt32();
-            //currentIpRecord.ip_from_str = IPAddress.Parse(currentIpRecord.ip_from.ToString()).ToString();
-            currentIpRecord.ip_to = reader.ReadUInt32();
-            //currentIpRecord.ip_to_str = IPAddress.Parse(currentIpRecord.ip_to.ToString()).ToString();
-            currentIpRecord.location_index = reader.ReadUInt32();
+            currentIpRecord.Ip_from = reader.ReadUInt32();
+            currentIpRecord.Ip_to = reader.ReadUInt32();
+            currentIpRecord.Location_index = reader.ReadUInt32();
 
             return currentIpRecord;
         }

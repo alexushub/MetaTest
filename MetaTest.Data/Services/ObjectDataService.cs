@@ -31,26 +31,23 @@ namespace MetaTest.Data.Services
             }
 
             var ipUint = BitConverter.ToUInt32(bytes, 0);
-            var ipRecord = _dataStorage.Ips.FirstOrDefault(m => m.ip_from <= ipUint && m.ip_to >= ipUint);
+            var ipRecord = _dataStorage.Ips.FirstOrDefault(m => m.Ip_from <= ipUint && m.Ip_to >= ipUint);
             if (ipRecord == null)
             {
                 return null;
             }
 
-            //var index = _dataStorage.LocationsIndexes.FirstOrDefault(m => m == ipRecord.location_index);
-            //if (index == default)
-            //{
-            //    return null;
-            //}
+            ipRecord.Ip_from_str = IPAddress.Parse(ipRecord.Ip_from.ToString()).ToString();
+            ipRecord.Ip_to_str = IPAddress.Parse(ipRecord.Ip_to.ToString()).ToString();
 
-            var location = _dataStorage.Locations.FirstOrDefault(m => m.Order == ipRecord.location_index);
+            var location = _dataStorage.Locations.FirstOrDefault(m => m.Order == ipRecord.Location_index);
 
             return location;
         }
 
         public IEnumerable<LocationRecord> GetLocationsByCity(string city)
         {
-            var locations = _dataStorage.Locations.Where(m => m.city == city);
+            var locations = _dataStorage.Locations.Where(m => m.City == city);
 
             return locations;
         }
