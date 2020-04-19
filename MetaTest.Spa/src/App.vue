@@ -1,10 +1,13 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/ipsearch">IP search</router-link> |
+  <div id="app" class="container">
+    <div id="nav" class="navigation">
+      <router-link to="/ipsearch">IP search</router-link>
       <router-link to="/citysearch">City search</router-link>
     </div>
-    <router-view/>
+	<div class="view">
+		<router-view/>
+	</div>
+
   </div>
 </template>
 
@@ -29,4 +32,23 @@
     }
   }
 }
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+  }
+
+  .navigation {
+		display: flex;
+		flex-direction: column;
+
+		width: 200px;
+		//flex-grow: 1;
+  }
+
+  .view {
+		width: 600px;
+		//flex-grow: 2;
+  }
 </style>

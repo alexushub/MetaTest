@@ -36,7 +36,7 @@ namespace MetaTest.Data.Services
             using (MemoryMappedViewStream stream = file.CreateViewStream())
             using (BinaryReader reader = new BinaryReader(stream))
             {
-                //get header
+                //read header
                 Header.version = reader.ReadInt32();
                 Header.name = DbHelper.ReadString(reader, 32);
                 Header.timestamp = reader.ReadUInt64();
@@ -45,11 +45,12 @@ namespace MetaTest.Data.Services
                 Header.offset_cities = reader.ReadUInt32();
                 Header.offset_locations = reader.ReadUInt32();
 
+                //init collections
                 Ips = new IpRecord[Header.records];
                 Locations = new LocationRecord[Header.records];
                 LocationsIndexes = new uint[Header.records];
 
-                //get ips
+                //read ips
                 reader.BaseStream.Seek(Header.offset_ranges, SeekOrigin.Begin);
                 for (int i = 0; i < Header.records; i++)
                 {
@@ -57,7 +58,7 @@ namespace MetaTest.Data.Services
                     Ips[i] = currentIpRecord;
                 }
 
-                //get locations
+                //read locations
                 reader.BaseStream.Seek(Header.offset_locations, SeekOrigin.Begin);
                 for (uint i = 0; i < Header.records; i++)
                 {
@@ -66,7 +67,7 @@ namespace MetaTest.Data.Services
                     Locations[i] = currentLocationRecord;
                 }
 
-                //get locations indexes
+                //read locations indexes
                 reader.BaseStream.Seek(Header.offset_cities, SeekOrigin.Begin);
                 for (int i = 0; i < Header.records; i++)
                 {

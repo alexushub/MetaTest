@@ -18,6 +18,7 @@ namespace MetaTest.Data.Services
         }
         public LocationRecord GetLocationByIp(string ip)
         {
+            //parse ip to specialized class and convert it to Uint
             IPAddress.TryParse(ip, out IPAddress address);
             if (address == null)
             {
@@ -29,8 +30,9 @@ namespace MetaTest.Data.Services
             {
                 Array.Reverse(bytes);
             }
-
             var ipUint = BitConverter.ToUInt32(bytes, 0);
+
+            //find the range our ip relates to
             var ipRecord = _dataStorage.Ips.FirstOrDefault(m => m.Ip_from <= ipUint && m.Ip_to >= ipUint);
             if (ipRecord == null)
             {
@@ -40,6 +42,7 @@ namespace MetaTest.Data.Services
             ipRecord.Ip_from_str = IPAddress.Parse(ipRecord.Ip_from.ToString()).ToString();
             ipRecord.Ip_to_str = IPAddress.Parse(ipRecord.Ip_to.ToString()).ToString();
 
+            //get corresponding location
             var location = _dataStorage.Locations.FirstOrDefault(m => m.Order == ipRecord.Location_index);
 
             return location;

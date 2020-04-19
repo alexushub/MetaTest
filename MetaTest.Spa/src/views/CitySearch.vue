@@ -14,19 +14,23 @@ const request = `${constants.server_url}city/locations?city=`;
 
 const columnsInfo = [
 	{
-		text: 'organization',
+		text: 'City',
+		value: 'city',
+	},
+	{
+		text: 'Organization',
 		value: 'organization',
 	},
 	{
-		text: 'postal',
+		text: 'Postal',
 		value: 'postal',
 	},
 	{
-		text: 'latitude',
+		text: 'Latitude',
 		value: 'latitude',
 	},
 	{
-		text: 'longitude',
+		text: 'Longitude',
 		value: 'longitude',
 	},
 

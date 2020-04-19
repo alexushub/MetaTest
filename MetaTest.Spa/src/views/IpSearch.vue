@@ -22,19 +22,19 @@ const columnsInfo = [
 		value: 'city',
 	},
 	{
-		text: 'organization',
+		text: 'Organization',
 		value: 'organization',
 	},
 	{
-		text: 'postal',
+		text: 'Postal',
 		value: 'postal',
 	},
 	{
-		text: 'latitude',
+		text: 'Latitude',
 		value: 'latitude',
 	},
 	{
-		text: 'longitude',
+		text: 'Longitude',
 		value: 'longitude',
 	},
 

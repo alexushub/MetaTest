@@ -44,6 +44,7 @@ namespace MetaTest.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataStorage dataStorage, IConfiguration config)
         {
+            //load all database
             var dbFileName = config.GetValue<string>("DbFileName");
             dataStorage.LoadAllFromFile(dbFileName);
 
