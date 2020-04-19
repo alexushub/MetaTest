@@ -77,7 +77,7 @@ namespace MetaTest.Data.Services
 
             s.Stop();
 
-            Console.WriteLine("Database has been loaded in ", ((double)(s.Elapsed.TotalMilliseconds)).ToString("0.00 ms"));
+            Console.WriteLine("Database has been loaded in " + ((double)(s.Elapsed.TotalMilliseconds)).ToString("0.00 ms"));
         }
 
         

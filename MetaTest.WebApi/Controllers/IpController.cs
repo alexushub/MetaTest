@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MetaTest.Data.Interfaces;
+using MetaTest.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,7 @@ namespace MetaTest.WebApi.Controllers
 
             s.Stop();
 
-            return Ok(location);
+            return Ok( location );
         }
     }
 }

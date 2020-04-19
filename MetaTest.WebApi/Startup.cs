@@ -27,6 +27,14 @@ namespace MetaTest.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:8080");
+                    });
+            });
             services.AddSingleton<IDataStorage, DataStorage>();
             services.AddTransient<IDataService, ObjectDataService>();
 
@@ -47,6 +55,8 @@ namespace MetaTest.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
